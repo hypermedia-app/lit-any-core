@@ -10,10 +10,6 @@ class TemplateSelector extends TemplateSelectorBase<{}> {
         return () => html``
     }
 
-    public get matchers() {
-        return this._matchers
-    }
-
     // eslint-disable-next-line class-methods-use-this
     public shouldMatch(criteria: {}): boolean {
         return true
@@ -30,9 +26,9 @@ describe('TemplateSelector', () => {
     describe('matches', () => {
         it('should match when all matchers return true', () => {
             // given
-            selector.matchers.push(() => true)
-            selector.matchers.push(() => true)
-            selector.matchers.push(() => true)
+            selector.push(() => true)
+            selector.push(() => true)
+            selector.push(() => true)
 
             // then
             expect(selector.matches({})).to.be.true
@@ -40,9 +36,9 @@ describe('TemplateSelector', () => {
 
         it('should not match when any matcher returns false', () => {
             // given
-            selector.matchers.push(() => true)
-            selector.matchers.push(() => false)
-            selector.matchers.push(() => true)
+            selector.push(() => true)
+            selector.push(() => false)
+            selector.push(() => true)
 
             // then
             expect(selector.matches({})).to.be.false
@@ -54,7 +50,7 @@ describe('TemplateSelector', () => {
             const property = 'p'
             const scope = 'demo'
             const spy = sinon.spy()
-            selector.matchers.push(spy)
+            selector.push(spy)
 
             // when
             selector.matches({ value, property, scope })

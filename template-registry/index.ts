@@ -22,7 +22,7 @@ export abstract class TemplateRegistryBase<TCriteria> {
 
     public name: string
 
-    protected constructor(name: string) {
+    public constructor(name: string) {
         this.name = name
     }
 
@@ -70,7 +70,7 @@ export abstract class TemplateRegistryBase<TCriteria> {
 }
 
 // eslint-disable-next-line max-len
-export default abstract class <TBuilder extends Builder<TRenderFunc>, TCriteria, TRenderFunc extends () => TemplateResult> extends TemplateRegistryBase<TCriteria> {
+export default abstract class <TBuilder extends Builder<TRenderFunc>, TCriteria, TRenderFunc extends (...args: any[]) => TemplateResult> extends TemplateRegistryBase<TCriteria> {
     public get when() {
         return this._createBuilder()
     }
