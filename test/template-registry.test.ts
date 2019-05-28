@@ -1,42 +1,44 @@
-/* global describe, it, beforeEach */
+/* eslint-disable class-methods-use-this,@typescript-eslint/no-non-null-assertion */
+// @ts-ignore
 import { expect } from '@open-wc/testing'
-import { html, render } from 'lit-html'
+import { html, render, TemplateResult } from 'lit-html'
 import * as sinon from 'sinon'
 import TemplateRegistry from '../template-registry'
-import TemplateSelectorBuilder from '../template-registry/TemplateSelectorBuilder'
 
-class TestBuilder extends TemplateSelectorBuilder {
-    protected _createSelector() {
-        return undefined
+class TestBuilder {
+    public renders(fn: () => TemplateResult) {
+
+    }
+}
+
+class TestRegistry extends TemplateRegistry<TestBuilder, {}, () => TemplateResult> {
+    public constructor() {
+        super('test')
+    }
+
+    public get templates() {
+        return this._templates
+    }
+
+    protected _createBuilder() {
+        return new TestBuilder()
     }
 }
 
 describe('Template Registry', () => {
-    let registry
+    let registry: TestRegistry
 
     const matchAllSelector = {
         matches: () => true,
     }
 
     beforeEach(() => {
-        registry = new TemplateRegistry(TestBuilder)
+        registry = new TestRegistry()
     })
 
     describe('initially', () => {
         it('should be empty', () => {
             expect(registry.count).to.be.equal(0)
-        })
-    })
-
-    describe('when adding selectors', () => {
-        it('should count them', () => {
-            // given
-            registry.when.renders(html``)
-            registry.when.renders(html``)
-            registry.when.renders(html``)
-
-            // then
-            expect(registry.count).to.be.equal(3)
         })
     })
 
@@ -51,8 +53,8 @@ describe('Template Registry', () => {
             const template = registry.getTemplate({ value: 'whatever' })
 
             // then
-            expect(template.render).to.equal(templateFunc)
-            expect(template.name).to.equal('test-template')
+            expect(template!.render).to.equal(templateFunc)
+            expect(template!.name).to.equal('test-template')
         })
 
         it('when name not given should return null', () => {
@@ -63,16 +65,17 @@ describe('Template Registry', () => {
             const template = registry.getTemplate({ value: 'whatever' })
 
             // then
-            expect(template.name).to.be.null
+            expect(template!.name).to.be.null
         })
 
         it('should return matching template for value', () => {
             // given
-            registry._templates.push({
+            const templatePushed: any = {
                 selector: {
-                    matches: c => c.value === 'test',
+                    matches: (c: any) => c.value === 'test',
                 },
-            })
+            }
+            registry.templates.push(templatePushed)
 
             // when
             const template = registry.getTemplate({
@@ -80,17 +83,17 @@ describe('Template Registry', () => {
             })
 
             // then
-            expect(template.name).to.be.null
+            expect(template!.name).to.be.null
         })
 
         it('should pass value to matcher', () => {
             // given
-            const template = {
+            const template: any = {
                 selector: {
                     matches: sinon.spy(),
                 },
             }
-            registry._templates.push(template)
+            registry.templates.push(template)
 
             // when
             registry.getTemplate({
@@ -115,15 +118,15 @@ describe('Template Registry', () => {
 
         it('should not call matchers if argument is null', () => {
             // given
-            const template = {
+            const template: any = {
                 selector: {
                     matches: sinon.spy(),
                 },
             }
-            registry._templates.push(template)
+            registry.templates.push(template)
 
             // when
-            registry.getTemplate(null)
+            registry.getTemplate(null as any)
 
             // then
             expect(template.selector.matches.called).to.be.false
@@ -131,15 +134,15 @@ describe('Template Registry', () => {
 
         it('should not call matchers if argument is undefined', () => {
             // given
-            const template = {
+            const template: any = {
                 selector: {
                     matches: sinon.spy(),
                 },
             }
-            registry._templates.push(template)
+            registry.templates.push(template)
 
             // when
-            registry.getTemplate(undefined)
+            registry.getTemplate(undefined as any)
 
             // then
             expect(template.selector.matches.called).to.be.false
@@ -156,8 +159,8 @@ describe('Template Registry', () => {
             const template = registry.getTemplate({ value: 'whatever' })
 
             // then
-            expect(template.render).to.be.a('function')
-            render(template.render(), renderTarget)
+            expect(template!.render).to.be.a('function')
+            render(template!.render(), renderTarget)
             expect(renderTarget.textContent).to.equal('test')
         })
     })

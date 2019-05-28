@@ -10,7 +10,6 @@
     "strict": true,
     "declaration": true,
     "sourceMap": true,
-    "noImplicitAny": false,
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {

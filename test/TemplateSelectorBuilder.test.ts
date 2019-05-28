@@ -1,65 +1,43 @@
-/* global describe, it, beforeEach */
+// @ts-ignore
 import { expect } from '@open-wc/testing'
+import { html, TemplateResult } from 'lit-html'
 import TemplateSelectorBuilder from '../template-registry/TemplateSelectorBuilder'
+import { TemplateRegistryBase } from '../template-registry'
 
-class TestTemplateSelectorBuilder extends TemplateSelectorBuilder {
+class TestTemplateSelectorBuilder extends TemplateSelectorBuilder<{}, () => TemplateResult> {
+    // eslint-disable-next-line no-useless-constructor
+    public constructor(r: TestRegistry) {
+        super(r)
+    }
+
+    // eslint-disable-next-line class-methods-use-this
     protected _createSelector() {
-        return {}
+        return {} as any
+    }
+}
+
+class TestRegistry extends TemplateRegistryBase<{}> {
+    public constructor() {
+        super('test')
     }
 }
 
 describe('TemplateSelectorBuilder', () => {
-    let builder
+    let builder: TestTemplateSelectorBuilder
+    let registry: TestRegistry
 
     beforeEach(() => {
-        builder = new TestTemplateSelectorBuilder({})
+        registry = new TestRegistry()
+        builder = new TestTemplateSelectorBuilder(registry)
     })
 
-    describe('adding value matcher function', () => {
-        it('creates a matcher', () => {
-            // given
-            const valueToMatch = 'test val'
-
+    describe('renders', () => {
+        it('adds template to registry', () => {
             // when
-            builder.valueMatches(v => v === 'test val')
+            builder.renders(() => html``)
 
             // then
-            const matcher = builder._selector._matchers[0]
-            expect(matcher({
-                value: valueToMatch,
-            })).to.be.true
-        })
-    })
-
-    describe('adding scope matcher function', () => {
-        it('creates a matcher', () => {
-            // given
-            const valueToMatch = 'the scope'
-
-            // when
-            builder.scopeMatches(s => s === 'the scope')
-
-            // then
-            const matcher = builder._selector._matchers[0]
-            expect(matcher({
-                scope: valueToMatch,
-            })).to.be.true
-        })
-    })
-
-    describe('adding scope matcher shorthand', () => {
-        it('creates a matcher', () => {
-            // given
-            const valueToMatch = 'the scope'
-
-            // when
-            builder.scopeMatches('the scope')
-
-            // then
-            const matcher = builder._selector._matchers[0]
-            expect(matcher({
-                scope: valueToMatch,
-            })).to.be.true
+            expect(registry.count).to.equal(1)
         })
     })
 })

@@ -1,20 +1,22 @@
+import { TemplateResult } from 'lit-html'
 import TemplateSelector from './TemplateSelector'
+import { TemplateRegistryBase } from './index'
 
-export default abstract class TemplateSelectorBuilder {
-    protected _registry
+// eslint-disable-next-line max-len
+export default abstract class TemplateSelectorBuilder<TCriteria, TRenderFunc extends (...args: any[]) => TemplateResult> {
+    private readonly _registry: TemplateRegistryBase<TCriteria>
 
-    protected _selector
+    protected _selector: TemplateSelector<TCriteria>
 
-    constructor(registry) {
+    protected constructor(registry: TemplateRegistryBase<TCriteria>) {
         this._registry = registry
         this._selector = this._createSelector()
     }
 
-    public renders(fn) {
-        this._registry.push(this._selector, fn)
+    public renders(fn: TRenderFunc) {
+        this._registry.push(this._selector, fn, '')
         return this._registry
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    protected abstract _createSelector(): TemplateSelector
+    protected abstract _createSelector(): TemplateSelector<TCriteria>
 }
