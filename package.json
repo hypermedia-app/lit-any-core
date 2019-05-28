@@ -4,6 +4,11 @@
   "directories": {
     "test": "test"
   },
+  "files": [
+    "template-registry/*.js",
+    "template-registry/*.js.map",
+    "template-registry/*.d.ts"
+  ],
   "scripts": {
     "prepare": "tsc",
     "pretest": "npm run lint",
