@@ -6,7 +6,7 @@ interface TemplateSelector<TCriteria> {
 
 interface TemplateInstance {
     name: string | null;
-    render: () => TemplateResult;
+    render: (...args: any[]) => TemplateResult;
 }
 
 interface Builder<TRenderFunc> {
@@ -75,5 +75,5 @@ export default abstract class <TBuilder extends Builder<TRenderFunc>, TCriteria,
         return this._createBuilder()
     }
 
-    protected abstract _createBuilder(): Builder<TRenderFunc>;
+    protected abstract _createBuilder(): TBuilder;
 }
