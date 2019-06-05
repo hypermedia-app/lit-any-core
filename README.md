@@ -3,7 +3,7 @@
 Base library for `@lit-any`, a library for building HTML user interafce in a functional style, composed of small,
 manageable partial templates.
 
-This package doesn't expose much functionality and it just a dependency for others which do:
+This package doesn't expose much functionality and it is just a dependency for others which do:
 
 * [`@lit-any/views`](https://github.com/hypermedia-app/lit-any-views) - one way view builder, like React+Redux
 * [`@lit-any/forms`](https://github.com/hypermedia-app/lit-any-forms) - forms made simple with lit-html
