@@ -1,6 +1,6 @@
 {
   "name": "@lit-any/core",
-  "version": "0.9.0-a3",
+  "version": "0.9.0",
   "directories": {
     "test": "test"
   },
