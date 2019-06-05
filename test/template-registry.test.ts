@@ -160,7 +160,7 @@ describe('Template Registry', () => {
 
             // then
             expect(template!.render).to.be.a('function')
-            render(template!.render(), renderTarget)
+            render(html`${template!.render()}`, renderTarget)
             expect(renderTarget.textContent).to.equal('test')
         })
     })

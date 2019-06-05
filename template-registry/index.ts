@@ -6,7 +6,7 @@ interface TemplateSelector<TCriteria> {
 
 interface TemplateInstance {
     name: string | null;
-    render: (...args: any[]) => TemplateResult;
+    render: (...args: any[]) => (TemplateResult | string);
 }
 
 interface Builder<TRenderFunc> {
@@ -16,7 +16,7 @@ interface Builder<TRenderFunc> {
 export abstract class TemplateRegistryBase<TCriteria> {
     protected _templates: {
         selector: TemplateSelector<TCriteria>;
-        templateFunc: () => TemplateResult;
+        templateFunc: () => (TemplateResult | string);
         name: string | null;
     }[] = []
 
@@ -48,7 +48,7 @@ export abstract class TemplateRegistryBase<TCriteria> {
 
     public push(
         selector: TemplateSelector<TCriteria>,
-        templateFuncOrResult: (() => TemplateResult) | TemplateResult | string,
+        templateFuncOrResult: (() => (TemplateResult | string)) | TemplateResult | string,
         name: string | null = null
     ) {
         let templateFunc
@@ -70,7 +70,7 @@ export abstract class TemplateRegistryBase<TCriteria> {
 }
 
 // eslint-disable-next-line max-len
-export default abstract class <TBuilder extends Builder<TRenderFunc>, TCriteria, TRenderFunc extends (...args: any[]) => TemplateResult> extends TemplateRegistryBase<TCriteria> {
+export default abstract class <TBuilder extends Builder<TRenderFunc>, TCriteria, TRenderFunc extends (...args: any[]) => (TemplateResult | string)> extends TemplateRegistryBase<TCriteria> {
     public get when() {
         return this._createBuilder()
     }

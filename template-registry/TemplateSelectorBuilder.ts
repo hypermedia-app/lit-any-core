@@ -3,7 +3,7 @@ import TemplateSelector from './TemplateSelector'
 import { TemplateRegistryBase } from './index'
 
 // eslint-disable-next-line max-len
-export default abstract class TemplateSelectorBuilder<TCriteria, TRenderFunc extends (...args: any[]) => TemplateResult> {
+export default abstract class TemplateSelectorBuilder<TCriteria, TRenderFunc extends (...args: any[]) => (TemplateResult | string)> {
     private readonly _registry: TemplateRegistryBase<TCriteria>
 
     protected _selector: TemplateSelector<TCriteria>
