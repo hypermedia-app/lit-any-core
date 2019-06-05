@@ -8,4 +8,4 @@ This package doesn't expose much functionality and it is just a dependency for o
 * [`@lit-any/views`](https://github.com/hypermedia-app/lit-any-views) - one way view builder, like React+Redux
 * [`@lit-any/forms`](https://github.com/hypermedia-app/lit-any-forms) - forms made simple with lit-html
 * [`@lit-any/components-paper-elements`](https://github.com/hypermedia-app/lit-any-components-paper-elements) - form components build to [Material Design](https://meterial.io) using Polymer's original custom elements
-* [`@lit-any/components-vaadin`](https://github.com/hypermedia-app/lit-any-components-vaadin) - Vaadin for components
+* [`@lit-any/components-vaadin`](https://github.com/hypermedia-app/lit-any-components-vaadin) - Vaadin form components
